@@ -21,6 +21,6 @@ python3 -m http.server 4173
 
 ## 在线访问
 
-推送到 `main` 分支后，GitHub Actions 会自动发布至 GitHub Pages：
+网站通过 GitHub Pages 直接从 `main` 分支根目录发布：
 
 `https://f8vs584fmn-cpu.github.io/portfolio/`
