@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#050505" />
+    <meta
+      name="description"
+      content="Dylan Guan 关鉴的个人作品网站：科学理性、审美创造与好奇心。"
+    />
+    <title>Dylan Guan 关鉴</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <div class="cursor" aria-hidden="true"><span></span></div>
+
+    <main id="app">
+      <section class="home is-active" data-page="home" aria-label="首页">
+        <p class="identity" aria-label="Dylan Guan 关鉴"><span class="identity-cn">关鉴</span><span>DYLAN GUAN</span></p>
+        <div class="ambient-light" aria-hidden="true"><i></i><i></i><i></i></div>
+
+        <div class="prism-stage" id="prismStage">
+          <div class="reference-optics" aria-hidden="true">
+            <span class="reference-layer reference-prism"></span>
+            <span class="reference-layer reference-floor"></span>
+            <span class="reference-clean-core"></span>
+            <span class="reference-active"></span>
+            <span class="reference-layer reference-ray reference-ray-in"></span>
+            <span class="reference-layer reference-ray reference-ray-blue"></span>
+            <span class="reference-layer reference-ray reference-ray-gold"></span>
+            <span class="reference-layer reference-ray reference-ray-red"></span>
+          </div>
+          <svg class="light-system" viewBox="0 0 1600 1066.667" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <linearGradient id="glassA" x1="0" x2="1">
+                <stop offset="0" stop-color="#fff" stop-opacity=".72" />
+                <stop offset=".45" stop-color="#bdefff" stop-opacity=".08" />
+                <stop offset="1" stop-color="#fff" stop-opacity=".38" />
+              </linearGradient>
+              <linearGradient id="glassB" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#fff" stop-opacity=".06" />
+                <stop offset="1" stop-color="#9deaff" stop-opacity=".18" />
+              </linearGradient>
+              <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="8" result="blur" />
+                <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+              <filter id="wideGlow" x="-50%" y="-100%" width="200%" height="300%">
+                <feGaussianBlur stdDeviation="16" />
+              </filter>
+              <filter id="glassGlow" x="-70%" y="-70%" width="240%" height="240%">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="2.4" result="soft" />
+                <feSpecularLighting in="soft" surfaceScale="4" specularConstant=".7" specularExponent="18" lighting-color="#e9fbff" result="spec">
+                  <fePointLight x="480" y="230" z="160" />
+                </feSpecularLighting>
+                <feComposite in="spec" in2="SourceGraphic" operator="in" result="lit" />
+                <feMerge><feMergeNode in="soft" /><feMergeNode in="lit" /><feMergeNode in="SourceGraphic" /></feMerge>
+              </filter>
+            </defs>
+
+            <g class="rays">
+              <path class="ray ray-in-glow" d="M -30 620 L 550 550" />
+              <path class="ray ray-in" d="M -30 620 L 550 550" />
+              <path class="ray ray-blue glow" d="M 574 450 L 1210 245" />
+              <path class="ray ray-blue" d="M 574 450 L 1210 245" />
+              <path class="ray ray-gold glow" d="M 574 450 L 1210 450" />
+              <path class="ray ray-gold" d="M 574 450 L 1210 450" />
+              <path class="ray ray-red glow" d="M 574 450 L 1210 665" />
+              <path class="ray ray-red" d="M 574 450 L 1210 665" />
+            </g>
+
+            <g class="prism-shadow"><ellipse cx="574" cy="638" rx="205" ry="22" /></g>
+            <g class="prism-shape" filter="url(#glassGlow)">
+              <path class="prism-body" d="M 574 270 L 410 625 L 738 625 Z" fill="url(#glassB)" stroke="url(#glassA)" stroke-width="2" />
+              <path d="M 574 270 L 594 307 L 445 604 L 410 625 Z" fill="#e9fbff" fill-opacity=".17" />
+              <path d="M 574 270 L 594 307 L 724 604 L 738 625 Z" fill="#e9fbff" fill-opacity=".07" />
+              <path d="M 410 625 L 445 604 L 724 604 L 738 625 Z" fill="#dff9ff" fill-opacity=".26" />
+              <path d="M 574 450 L 445 604 L 594 307 Z" fill="#7fdfff" fill-opacity=".025" />
+              <path d="M 574 450 L 724 604 L 594 307 Z" fill="#fff" fill-opacity=".018" />
+              <path d="M 445 604 L 724 604" fill="none" stroke="#fff" stroke-opacity=".65" stroke-width="1" />
+            </g>
+          </svg>
+
+          <button class="prism-hit" id="prismTrigger" type="button" aria-expanded="false" aria-controls="themeNav">
+            <span class="touch-copy"><span>TOUCH ME</span><small>触摸唤醒光谱</small></span>
+          </button>
+        </div>
+
+        <nav class="theme-nav" id="themeNav" aria-label="作品主题">
+          <a href="#/science" class="theme-link science" data-route="science">
+            <span class="theme-dot" aria-hidden="true"></span>
+            <span class="theme-text"><strong>科学理性</strong><i></i><small>理工科硕士、专利审查员</small></span>
+          </a>
+          <a href="#/art" class="theme-link art" data-route="art">
+            <span class="theme-dot" aria-hidden="true"></span>
+            <span class="theme-text"><strong>审美创造</strong><i></i><small>副业穿搭博主、4年广告经验</small></span>
+          </a>
+          <a href="#/curiosity" class="theme-link curiosity" data-route="curiosity">
+            <span class="theme-dot" aria-hidden="true"></span>
+            <span class="theme-text"><strong>好奇心</strong><i></i><small>亿点点选题、兴趣、最近在看</small></span>
+          </a>
+        </nav>
+
+        <p class="home-note">一心&nbsp;&nbsp;·&nbsp;&nbsp;三念&nbsp;&nbsp;·&nbsp;&nbsp;无尽探索</p>
+      </section>
+
+      <section class="detail detail-science" data-page="science" aria-label="科学理性">
+        <header class="site-header">
+          <a href="#/" class="wordmark" data-route="home">DG<span>关鉴</span></a>
+          <nav class="mini-nav" aria-label="主题导航">
+            <a href="#/science" data-route="science">理性</a>
+            <a href="#/art" data-route="art">创造</a>
+            <a href="#/curiosity" data-route="curiosity">好奇</a>
+          </nav>
+          <a class="back-link" href="#/" data-route="home">返回光谱 <span>×</span></a>
+        </header>
+
+        <div class="detail-hero">
+          <p class="eyebrow"><span class="dot"></span>01 / SCIENCE</p>
+          <h1>科学理性</h1>
+          <p class="hero-lede">你们要的科学理性思维、<br />检索能力和耐心细心，我都有。</p>
+          <nav class="art-part-nav science-part-nav" aria-label="科学理性页面分区">
+            <button type="button" data-section-jump="education" data-jump-page="science" onclick="location.hash='#/science/education'"><span>01</span><strong>学历背景</strong><i>↓</i></button>
+            <button type="button" data-section-jump="patent-work" data-jump-page="science" onclick="location.hash='#/science/patent-work'"><span>02</span><strong>当前工作</strong><i>↓</i></button>
+            <button type="button" data-section-jump="english" data-jump-page="science" onclick="location.hash='#/science/english'"><span>03</span><strong>英语水平</strong><i>↓</i></button>
+          </nav>
+          <span class="scroll-cue">向下探索 ↓</span>
+        </div>
+
+        <div class="content-wrap wide science-content">
+          <section class="science-chapter education-chapter reveal" id="education">
+            <p class="section-label">01 / EDUCATION · 学历背景</p>
+            <div class="science-chapter-grid">
+              <div class="science-chapter-title">
+                <h2><span>同济 + 利兹，</span><span>本硕理工科</span><span>专业背景。</span></h2>
+                <p>形成了稳定的理性思维方式，好奇并有动力探究事物的运行逻辑和背后原理。</p>
+              </div>
+              <div class="education-evidence">
+                <div class="education-columns" aria-label="教育经历与学位证明">
+                  <article class="education-card">
+                    <header><time>2012—2016</time><h3>同济大学</h3><p>地质学 · 本科</p></header>
+                    <figure class="credential-card">
+                    <img src="./media/credential-tongji.webp" alt="同济大学理学学士学位证（隐私信息已处理）" />
+                    </figure>
+                  </article>
+                  <article class="education-card">
+                    <header><time>2016—2017</time><h3>英国利兹大学</h3><p>能源与环境 · 研究生</p></header>
+                    <figure class="credential-card">
+                      <img src="./media/credential-leeds.webp" alt="英国利兹大学理学硕士学位证（隐私信息已处理）" />
+                    </figure>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="science-chapter patent-chapter reveal" id="patent-work">
+            <p class="section-label">02 / PATENT EXAMINATION · 当前工作</p>
+            <div class="science-chapter-grid patent-grid">
+              <div class="science-chapter-title">
+                <h2><span>法律与理工科的</span><span>交叉职业。</span></h2>
+                <p>阅读专业文件、检索、细致检查，是我专利审查的工作日常。</p>
+                <ul class="patent-strengths" aria-label="岗位匹配能力">
+                  <li>专业文件理解</li><li>信息检索</li><li>归纳判断</li><li>细致与耐心</li>
+                </ul>
+              </div>
+              <div class="patent-profile">
+                <div class="patent-role"><time>2022—至今</time><h3>专利预审员</h3><p>上海市知识产权保护中心</p></div>
+                <div class="patent-number"><strong>400～500</strong><span>件 / 年个人审查专利量</span></div>
+                <div class="patent-fields"><span>新能源</span><span>新材料</span><span>人工智能</span><span>机械</span><span>更多领域</span></div>
+              </div>
+            </div>
+            <div class="review-flow" aria-label="专利审查工作流程">
+              <p>审查工作大致流程</p>
+              <ol><li><span>01</span>阅读并理解几十页专利申请文件</li><li><span>02</span>在专利库检索相关专利</li><li><span>03</span>判断是否具备授权前景</li><li><span>04</span>进一步细致检查形式问题</li></ol>
+            </div>
+          </section>
+
+          <section class="science-chapter english-chapter reveal" id="english">
+            <p class="section-label">03 / ENGLISH · 英语水平</p>
+            <div class="english-grid">
+              <div class="english-summary">
+                <h2><span>IELTS 7.0</span><span>CEFR C1</span></h2>
+                <p>英国 1 年的学习生活经历，具备一定的英文书面工作能力。</p>
+                <dl class="english-scores" aria-label="雅思单项成绩">
+                  <div><dt>听力</dt><dd>7.5</dd></div><div><dt>阅读</dt><dd>7.5</dd></div><div><dt>写作</dt><dd>6.5</dd></div><div><dt>口语</dt><dd>6.0</dd></div>
+                </dl>
+              </div>
+              <figure class="ielts-document">
+                <img src="./media/credential-ielts.webp" alt="雅思成绩单（隐私信息已处理）" />
+              </figure>
+            </div>
+          </section>
+        </div>
+        <nav class="chapter-footer" aria-label="继续浏览作品章节"><a href="#/" data-route="home"><span>00</span><strong>回到光谱</strong><i>↗</i></a><a href="#/art" data-route="art"><span>02</span><strong>审美创造</strong><i>→</i></a><a href="#/curiosity" data-route="curiosity"><span>03</span><strong>好奇心</strong><i>→</i></a></nav>
+      </section>
+
+      <section class="detail detail-art" data-page="art" aria-label="审美创造">
+        <header class="site-header">
+          <a href="#/" class="wordmark" data-route="home">DG<span>关鉴</span></a>
+          <nav class="mini-nav" aria-label="主题导航">
+            <a href="#/science" data-route="science">理性</a><a href="#/art" data-route="art">创造</a><a href="#/curiosity" data-route="curiosity">好奇</a>
+          </nav>
+          <a class="back-link" href="#/" data-route="home">返回光谱 <span>×</span></a>
+        </header>
+
+        <div class="detail-hero art-hero">
+          <p class="eyebrow"><span class="dot"></span>02 / ART</p>
+          <h1>审美创造</h1>
+          <p class="hero-lede">从审美直觉出发，<br />用理性方法做商业化表达。</p>
+          <nav class="art-part-nav" aria-label="审美创造页面分区">
+            <button type="button" data-section-jump="creator-work" onclick="location.hash='#/art/creator-work'"><span>01</span><strong>副业穿搭博主</strong><i>↓</i></button>
+            <button type="button" data-section-jump="ad-experience" onclick="location.hash='#/art/ad-experience'"><span>02</span><strong>4 年广告行业经历</strong><i>↓</i></button>
+          </nav>
+        </div>
+
+        <div class="content-wrap wide">
+          <section class="creator-entry reveal" id="creator-work">
+            <div class="creator-summary">
+              <p class="section-label">01 / 副业穿搭博主</p>
+              <h2><span>热爱驱动 +</span><span>理性落地的</span><span>小红书穿搭账号。</span></h2>
+              <p class="creator-note">利用业余时间从 0 到 1，一人短视频全流程经验。</p>
+              <div class="creator-stats" aria-label="账号数据概览"><div><strong>1.7w+</strong><span>小红书粉丝</span></div><div><strong>100+</strong><span>商业合作内容</span></div></div>
+            </div>
+            <a class="profile-avatar-link" href="https://xhslink.cn/m/BxjqTPU5HH" target="_blank" rel="noreferrer"><img src="./media/avatar.webp" alt="涤纶的小红书头像" /><span><b>@涤纶</b><small>小红书主页 ↗</small></span></a>
+          </section>
+
+          <section class="portfolio-section" aria-label="内容案例">
+            <section class="case-part comparison-part">
+              <div class="case-chapter reveal"><span>01 / 2023.09</span><h2><span>第一个小爆款</span><span>《直观对比系列》</span></h2><p class="slide-guide">← 左右滑动查看 3 页图文 →</p></div>
+              <div class="case-rail" aria-label="直观对比系列">
+                <article class="image-slide reveal"><div class="case-frame image-carousel" data-carousel><div class="carousel-track"><img src="./media/compare-lemaire.webp" alt="U 系列与 Lemaire 对比图 1" /><img src="./media/compare-lemaire-2.webp" alt="U 系列与 Lemaire 对比图 2" /><img src="./media/compare-lemaire-3.webp" alt="U 系列与 Lemaire 对比图 3" /></div><em>01 / DIRECT COMPARISON</em><button type="button" class="carousel-prev" aria-label="上一张">←</button><button type="button" class="carousel-next" aria-label="下一张">→</button><span class="carousel-count"><b>1</b> / 3</span></div><div class="video-meta"><div><h3>U 系列真的能平替 Lemaire 吗？</h3><p>控制变量 · 设计语言 · 价格冲突</p></div><a href="https://xhslink.cn/o/AYn8WBKeDqC" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="image-slide reveal"><div class="case-frame image-carousel" data-carousel><div class="carousel-track"><img src="./media/compare-jwa.webp" alt="优衣库 JWA 与 U 系列对比图 1" /><img src="./media/compare-jwa-2.webp" alt="优衣库 JWA 与 U 系列对比图 2" /><img src="./media/compare-jwa-3.webp" alt="优衣库 JWA 与 U 系列对比图 3" /></div><em>02 / DIRECT COMPARISON</em><button type="button" class="carousel-prev" aria-label="上一张">←</button><button type="button" class="carousel-next" aria-label="下一张">→</button><span class="carousel-count"><b>1</b> / 3</span></div><div class="video-meta"><div><h3>优衣库 JWA 比 U 系列差在哪？</h3><p>系列辨析 · 细节观察</p></div><a href="https://xhslink.cn/o/TDHFc6Z6Mq" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="image-slide reveal"><div class="case-frame image-carousel" data-carousel><div class="carousel-track"><img src="./media/compare-real.webp" alt="U 系列与 Lemaire 真平替图 1" /><img src="./media/compare-real-2.webp" alt="U 系列与 Lemaire 真平替图 2" /><img src="./media/compare-real-3.webp" alt="U 系列与 Lemaire 真平替图 3" /></div><em>03 / DIRECT COMPARISON</em><button type="button" class="carousel-prev" aria-label="上一张">←</button><button type="button" class="carousel-next" aria-label="下一张">→</button><span class="carousel-count"><b>1</b> / 3</span></div><div class="video-meta"><div><h3>谁还分得清 U 系列和 Lemaire</h3><p>冲突选题 · 视觉验证</p></div><a href="https://xhslink.cn/o/5MZ26N9WScR" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+              </div>
+            </section>
+
+            <section class="case-part first-video-part">
+              <div class="case-chapter reveal"><span>02 / 2025.01.01</span><h2><span>第一次</span><span>发视频</span></h2></div>
+              <div class="case-rail single-case" aria-label="第一条视频"><article class="video-slide reveal" data-video="./media/annual.mp4" data-title="年度总结｜我在 2024 年最常穿的 5 件外套" data-note="https://xhslink.cn/o/4g92jEhtAlW"><div class="video-frame"><video src="./media/annual.mp4" muted playsinline preload="metadata"></video><button type="button" class="video-play" aria-label="播放年度总结"><span>PLAY</span></button><em>01 / FIRST VIDEO</em></div><div class="video-meta"><div><h3>年度总结｜我在 2024 年最常穿的 5 件外套</h3><p>首条短视频 · 个人经验整理</p></div><a href="https://xhslink.cn/o/4g92jEhtAlW" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article></div>
+            </section>
+
+            <section class="case-part commercial-part">
+              <div class="case-chapter reveal"><span>03 / COMMERCIAL WORKFLOW</span><h2><span>开始商业化，</span><span>加入口播，</span><span>稳定工作流，</span><span>但每一次争取</span><span>更进一步。</span></h2></div>
+              <div class="case-rail" aria-label="商业合作视频">
+                <article class="video-slide reveal" data-video="./media/adidas-jacket.mp4" data-title="阿迪 25 最帅冲锋衣预定｜高级感穿法分享" data-note="https://xhslink.cn/o/88f6EFwcGGf"><div class="video-frame"><video src="./media/adidas-jacket.mp4" muted playsinline preload="metadata"></video><button type="button" class="video-play" aria-label="播放阿迪冲锋衣案例"><span>PLAY</span></button><em>01 / BRAND VIDEO</em></div><div class="video-meta"><div><h3>阿迪 25 最帅冲锋衣预定</h3><p>高级感穿法 · 商业视频</p></div><a href="https://xhslink.cn/o/88f6EFwcGGf" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="video-slide reveal" data-video="./media/trail-shoes.mp4" data-title="一路火到 26 年的跑山鞋｜热门配色怎么选" data-note="https://xhslink.cn/o/3kcVVW2GKHS"><div class="video-frame"><video src="./media/trail-shoes.mp4" muted playsinline preload="metadata"></video><button type="button" class="video-play" aria-label="播放跑山鞋案例"><span>PLAY</span></button><em>02 / BRAND VIDEO</em></div><div class="video-meta"><div><h3>跑山鞋热门配色怎么选</h3><p>产品选择 · 场景化表达</p></div><a href="https://xhslink.cn/o/3kcVVW2GKHS" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="video-slide reveal" data-video="./media/minimal-dressing.mp4" data-title="穿衣开始做减法之后，感觉自由多了" data-note="https://xhslink.cn/o/Ag6cyhuBzbj"><div class="video-frame"><video src="./media/minimal-dressing.mp4" muted playsinline preload="metadata"></video><button type="button" class="video-play" aria-label="播放穿衣减法案例"><span>PLAY</span></button><em>03 / BRAND VIDEO</em></div><div class="video-meta"><div><h3>穿衣开始做减法之后</h3><p>生活洞察 · 品牌融合</p></div><a href="https://xhslink.cn/o/Ag6cyhuBzbj" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="video-slide reveal" data-video="./media/luggage.mp4" data-title="P 人救星行李箱｜出门前 5 分钟打包 OK" data-note="https://xhslink.cn/o/Y9zoXbDwLe"><div class="video-frame"><video src="./media/luggage.mp4" muted playsinline preload="metadata"></video><button type="button" class="video-play" aria-label="播放行李箱案例"><span>PLAY</span></button><em>04 / BRAND VIDEO</em></div><div class="video-meta"><div><h3>P 人救星行李箱</h3><p>出门前 5 分钟打包 OK</p></div><a href="https://xhslink.cn/o/Y9zoXbDwLe" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="video-slide reveal" data-video="./media/timberland.mp4" data-title="大黄靴穿 5 年｜4 个隐藏穿搭技巧" data-note="https://xhslink.cn/o/3ZZemhHwPow"><div class="video-frame"><video src="./media/timberland.mp4" muted playsinline preload="metadata"></video><button type="button" class="video-play" aria-label="播放大黄靴案例"><span>PLAY</span></button><em>05 / BRAND VIDEO</em></div><div class="video-meta"><div><h3>大黄靴穿 5 年</h3><p>Timberland · 长期体验</p></div><a href="https://xhslink.cn/o/3ZZemhHwPow" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+              </div>
+            </section>
+
+            <section class="case-part">
+              <div class="case-chapter reveal"><span>04 / IMAGE &amp; TEXT</span><h2>图文内容</h2><p class="slide-guide">← 左右滑动查看 3 页图文 →</p></div>
+              <div class="case-rail" aria-label="图文内容">
+                <article class="image-slide reveal"><div class="case-frame image-carousel" data-carousel><div class="carousel-track"><img src="./media/nike-red.webp" alt="Zoom Skylon 11 图文 1" /><img src="./media/nike-red-2.webp" alt="Zoom Skylon 11 图文 2" /><img src="./media/nike-red-3.webp" alt="Zoom Skylon 11 图文 3" /></div><em>01 / IMAGE &amp; TEXT</em><button type="button" class="carousel-prev" aria-label="上一张">←</button><button type="button" class="carousel-next" aria-label="下一张">→</button><span class="carousel-count"><b>1</b> / 3</span></div><div class="video-meta"><div><h3>来自千禧年的一抹红</h3><p>Zoom Skylon 11 · 图文内容</p></div><a href="https://xhslink.cn/o/ArbJKzsgxDG" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="image-slide reveal"><div class="case-frame image-carousel" data-carousel><div class="carousel-track"><img src="./media/derby-clean-1.jpg" alt="建筑线条感银扣德比整体造型" /><img src="./media/derby-clean-2.jpg" alt="银扣德比鞋款设计细节" /><img src="./media/derby-clean-3.jpg" alt="银扣德比不同穿搭造型" /></div><em>02 / IMAGE &amp; TEXT</em><button type="button" class="carousel-prev" aria-label="上一张">←</button><button type="button" class="carousel-next" aria-label="下一张">→</button><span class="carousel-count"><b>1</b> / 3</span></div><div class="video-meta"><div><h3>建筑线条感银扣德比</h3><p>30 岁精简购物 · 设计观察</p></div><a href="https://xhslink.cn/o/A2PbknWKa4P" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+                <article class="image-slide reveal"><div class="case-frame image-carousel" data-carousel><div class="carousel-track"><img src="./media/tokyo-shops-1.webp" alt="中目黑与代官山店铺推荐图文 1" /><img src="./media/tokyo-shops-2.webp" alt="中目黑与代官山店铺推荐图文 2" /><img src="./media/tokyo-shops-3.webp" alt="中目黑与代官山店铺推荐图文 3" /></div><em>03 / IMAGE &amp; TEXT</em><button type="button" class="carousel-prev" aria-label="上一张">←</button><button type="button" class="carousel-next" aria-label="下一张">→</button><span class="carousel-count"><b>1</b> / 3</span></div><div class="video-meta"><div><h3>男生中目黑 &amp; 代官山必逛店铺推荐</h3><p>个人向购物推荐 · 城市观察</p></div><a href="https://xhslink.cn/o/8Z6jb32EBd3" target="_blank" rel="noreferrer">小红书笔记 ↗</a></div></article>
+              </div>
+            </section>
+          </section>
+
+          <section class="brand-section reveal">
+            <div class="brand-heading"><div><p class="section-label">SELECTED CLIENTS / 合作品牌</p><h2>合作品牌</h2></div></div>
+            <ul class="brand-logo-wall" aria-label="合作品牌 Logo 墙"><li class="logo-adidas">adidas</li><li class="logo-nike">NIKE</li><li class="logo-uniqlo">UNIQLO</li><li class="logo-allbirds">allbirds</li><li class="logo-birkenstock">BIRKENSTOCK</li><li class="logo-timberland">Timberland</li><li class="logo-norda">norda</li><li class="logo-hoka">HOKA</li><li class="logo-converse">CONVERSE</li><li class="logo-musinsa">MUSINSA<br />STANDARD</li><li class="logo-johnlobb">John Lobb</li><li class="logo-grotto">GROTTO</li><li class="logo-camper">CAMPER</li><li class="logo-kailas">KAILAS</li><li class="logo-anta">ANTA</li><li class="logo-361">361°</li><li class="logo-peacebird">PEACEBIRD</li><li class="logo-jackjones">JACK &amp; JONES</li><li class="logo-nans">NANS</li><li class="logo-teenie">Teenie Weenie</li></ul>
+          </section>
+
+          <section class="ad-experience reveal" id="ad-experience">
+            <p class="section-label">02 / 4 年广告行业经历</p>
+            <div class="ad-intro">
+              <h2><span>甲方乙方，</span><span>双视角。</span></h2>
+              <div class="ad-copy"><p>运营过线上品牌账号，拍过 TVC，也落地过线下 campaign。</p><p>广告公司 + 快销餐饮品牌部——甲方乙方双视角。懂品牌想要什么，也知道如何落地。</p></div>
+            </div>
+            <div class="ad-history" aria-label="广告行业履历">
+              <article><time>2018—2021</time><h3>广告公司客户经理</h3></article>
+              <article><time>2021—2022</time><h3>七分甜品牌部高级策略</h3></article>
+            </div>
+            <div class="ad-case-grid" aria-label="广告案例">
+              <figure><img src="./media/ad-nike-react.gif" alt="NIKE REACT 跑动地球案例 GIF" /><figcaption><span>01 / DIGITAL CAMPAIGN</span><strong>NIKE REACT 跑动地球</strong></figcaption></figure>
+              <figure><img src="./media/ad-sweet7-space.gif" alt="七分甜园林主题店案例 GIF" /><figcaption><span>02 / OFFLINE CAMPAIGN</span><strong>七分甜园林主题店</strong></figcaption></figure>
+              <figure><img src="./media/ad-kfc-tvc.gif" alt="肯德基新品 TVC 案例 GIF" /><figcaption><span>03 / TVC</span><strong>肯德基新品宣传片</strong></figcaption></figure>
+            </div>
+          </section>
+        </div>
+
+        <nav class="chapter-footer" aria-label="继续浏览作品章节"><a href="#/" data-route="home"><span>00</span><strong>回到光谱</strong><i>↗</i></a><a href="#/science" data-route="science"><span>01</span><strong>科学理性</strong><i>←</i></a><a href="#/curiosity" data-route="curiosity"><span>03</span><strong>好奇心</strong><i>→</i></a></nav>
+
+        <dialog class="video-modal" id="videoModal" aria-label="视频播放器">
+          <button type="button" class="video-modal-close" aria-label="关闭视频">×</button>
+          <div class="video-modal-layout"><div class="video-modal-screen"><video id="modalVideo" controls playsinline preload="metadata"></video></div><aside><p class="section-label">NOW PLAYING</p><h2 id="modalVideoTitle">视频标题</h2><a id="modalNoteLink" href="#" target="_blank" rel="noreferrer">查看小红书原笔记 ↗</a></aside></div>
+        </dialog>
+      </section>
+
+      <section class="detail detail-curiosity" data-page="curiosity" aria-label="好奇心">
+        <header class="site-header">
+          <a href="#/" class="wordmark" data-route="home">DG<span>关鉴</span></a>
+          <nav class="mini-nav" aria-label="主题导航"><a href="#/science" data-route="science">理性</a><a href="#/art" data-route="art">创造</a><a href="#/curiosity" data-route="curiosity">好奇</a></nav>
+          <a class="back-link" href="#/" data-route="home">返回光谱 <span>×</span></a>
+        </header>
+
+        <div class="detail-hero curiosity-hero">
+          <p class="eyebrow"><span class="dot"></span>03 / CURIOSITY</p>
+          <h1>好奇心</h1>
+          <p class="hero-lede">好奇心是本能<br />持续尝试新鲜事物是我的正向反馈机制</p>
+          <nav class="art-part-nav curiosity-part-nav" aria-label="好奇心页面分区">
+            <button type="button" data-section-jump="ideas-section" data-jump-page="curiosity" onclick="location.hash='#/curiosity/ideas-section'"><span>01</span><strong>想看的亿点点选题</strong><i>↓</i></button>
+            <button type="button" data-section-jump="all-friends" data-jump-page="curiosity" onclick="location.hash='#/curiosity/all-friends'"><span>02</span><strong>跟谁都有点共同话题</strong><i>↓</i></button>
+            <button type="button" data-section-jump="recent-input" data-jump-page="curiosity" onclick="location.hash='#/curiosity/recent-input'"><span>03</span><strong>最近在看</strong><i>↓</i></button>
+          </nav>
+          <span class="scroll-cue">向下探索 ↓</span>
+        </div>
+
+        <div class="curiosity-content">
+          <section class="ideas-section" id="ideas-section">
+            <div class="section-heading reveal"><p class="section-label">01 / PITCHES · 为「亿点点不一样」而想</p><h2>如果亿点点做这些选题，我会很感兴趣</h2></div>
+            <div class="idea-stage reveal" aria-label="动态选题封面，悬停查看详情">
+              <div class="idea-track">
+                <article class="idea-card cover-gem"><div class="idea-cover"><span>01 / GEM</span><b>GEM?</b><h3>赌石<br />是技术活？</h3><em>肉眼 · 手电 · 透视</em></div><div class="idea-detail"><span>01 / 赌石</span><h4>赌石是骗局还是技术活？</h4><ul><li>肉眼或手电筒真能判断内部结构和价值吗？</li><li>有透视设备是不是无敌了？</li></ul></div></article>
+                <article class="idea-card cover-alcohol"><div class="idea-cover"><span>02 / ALCOHOL</span><b>%VOL</b><h3>酒量<br />能练吗？</h3><em>防醉 · 解酒 · 头疼</em></div><div class="idea-detail"><span>02 / 酒量</span><h4>酒量真的练得出来吗？</h4><ul><li>最有效的解酒方式是什么？</li><li>酸奶 / 米饭 vs 空腹，哪个更防醉？</li><li>宿醉头疼究竟由什么导致？</li></ul></div></article>
+                <article class="idea-card cover-english"><div class="idea-cover"><span>03 / LANGUAGE</span><b>A↔B</b><h3>为什么从小学就开始学英语，<br />还是不会说？</h3><em>教材 · 影视 · 沉浸</em></div><div class="idea-detail"><span>03 / 英语</span><h4>为什么从小学就开始学英语，还是不会说？</h4><ul><li>相同水平的人分别学教材、看剧听歌、国外生活，N 周后雅思成绩会有什么区别？</li></ul></div></article>
+                <article class="idea-card cover-pitch"><div class="idea-cover"><span>04 / PITCH</span><b>♪</b><h3>音准能<br />速成吗？</h3><em>训练 · 测试 · 盲选</em></div><div class="idea-detail"><span>04 / 音准</span><h4>音准能速成吗？</h4><ul><li>五音不全的人系统训练后，音准能提高多少？</li><li>与会唱歌的同事同台，听众盲选谁更好？</li></ul></div></article>
+                <article class="idea-card cover-talent"><div class="idea-cover"><span>05 / TALENT</span><b>01″</b><h3>运动天赋<br />相通吗？</h3><em>冠军 · 新项目 · PK</em></div><div class="idea-detail"><span>05 / 运动天赋</span><h4>真有运动天赋吗？运动天赋是相通的吗？</h4><ul><li>让奥运冠军学习从未尝试过的运动，一段时间后与资深爱好者 PK。</li></ul></div></article>
+                <article class="idea-card cover-calorie"><div class="idea-cover"><span>06 / CALORIE</span><b>+KCAL</b><h3>油和碳水<br />谁更胖？</h3><em>火锅 · 碳水 · 体重</em></div><div class="idea-detail"><span>06 / 发胖</span><h4>油和碳水，哪个更胖人？</h4><ul><li>火锅川菜 vs 北方碳水饮食，1 个月后体重对比。</li><li>地域肥胖率差异，真能说明碳水比油脂更易发胖吗？</li></ul></div></article>
+                <article class="idea-card cover-ortho"><div class="idea-cover"><span>07 / ORTHO</span><b>↔</b><h3>牙齿<br />怎么矫正？</h3><em>钢牙 · 隐形 · 保持器</em></div><div class="idea-detail"><span>07 / 牙齿矫正</span><h4>牙齿矫正是什么原理？</h4><ul><li>钢牙和隐形牙套有什么区别？</li><li>成年人为什么一定要戴保持器？</li><li>多久不戴，矫正就白做了？</li></ul></div></article>
+                <article class="idea-card cover-plant"><div class="idea-cover"><span>08 / PLANT</span><b>H₂O</b><h3>告别<br />植物杀手</h3><em>浇水 · 光照 · 信号</em></div><div class="idea-detail"><span>08 / 植物</span><h4>为什么你总是植物杀手？植物到底该怎么养？</h4><ul><li>多久浇一次水？“干透浇透”是什么意思？</li><li>喜光或喜阴怎么判断？</li><li>不同症状代表什么信号？</li></ul></div></article>
+                <article class="idea-card cover-dog"><div class="idea-cover"><span>09 / K9</span><b>K9</b><h3>狗为什么<br />学不会？</h3><em>品种 · 大脑 · 行为</em></div><div class="idea-detail"><span>09 / 训犬</span><h4>为什么别人家的狗那么厉害，我们家的狗握手都学不会？</h4><ul><li>训犬到底难不难？</li><li>品种间学习能力差异有多大？</li><li>脑科学能否找到最高效的训犬方式？</li></ul></div></article>
+                <article class="idea-card cover-renovation"><div class="idea-cover"><span>10 / HOME</span><b>mm</b><h3>装修<br />水多深？</h3><em>材料 · 环保 · 参数</em></div><div class="idea-detail"><span>10 / 装修</span><h4>装修的水真的很深？普通人怎么装修不踩坑？</h4><ul><li>同样的材料价差能有多大？</li><li>全屋定制与板材品牌是什么关系？</li><li>选电器到底看哪些参数？</li></ul></div></article>
+                <article class="idea-card cover-work"><div class="idea-cover"><span>11 / WORK</span><b>24H</b><h3>在影视飓风<br />上班？</h3><em>专业 · 强度 · 作息</em></div><div class="idea-detail"><span>11 / 工作体验</span><h4>在影视飓风上班是什么体验？</h4><ul><li>大家的专业背景与现在的工作匹配吗？</li><li>真实工作强度和作息是什么样的？</li></ul></div></article>
+                <article class="idea-card cover-design"><div class="idea-cover"><span>12 / DESIGN</span><b>R</b><h3>高级感<br />从哪来？</h3><em>空间 · 街景 · 产品</em></div><div class="idea-detail"><span>12 / 设计</span><h4>为什么有的设计一眼就有高级感，也更舒服？</h4><ul><li>苹果门店藏着哪些设计细节？</li><li>原版和模仿设计能一眼看出吗？</li><li>好的产品设计有哪些共性？</li></ul></div></article>
+                <article class="idea-card cover-groom"><div class="idea-cover"><span>13 / GROOM</span><b>✂</b><h3>跨界理发<br />谁能赢？</h3><em>狗狗理发师 · 高级总监</em></div><div class="idea-detail"><span>13 / 跨界实验</span><h4>狗狗理发师给人理发，高级总监给狗理发，谁能赢？</h4><ul><li>专业技术跨越服务对象，哪些能力可以迁移，哪些会彻底失效？</li></ul></div></article>
+                <article class="idea-card cover-city"><div class="idea-cover"><span>14 / CITY</span><b>⇄</b><h3>城市如何<br />流动？</h3><em>单车 · 快递 · 外卖</em></div><div class="idea-detail"><span>14 / 城市系统</span><h4>把城市中的小事拉到宏观或微观尺度，会是什么样？</h4><ul><li>共享单车如何动态调度？</li><li>一个快递如何穿过全球物流系统？</li><li>外卖平台如何分配和规划订单？</li></ul></div></article>
+                <article class="idea-card cover-basketball"><div class="idea-cover"><span>15 / SHOT</span><b>10/10</b><h3>投篮<br />能速成吗？</h3><em>零基础 · 两周 · PK</em></div><div class="idea-detail"><span>15 / 投篮</span><h4>投篮可以训练出来吗？</h4><ul><li>零基础的人专业训练两周，可以百发百中吗？</li><li>与固定打球的人各投 10 球，谁能赢？</li></ul></div></article>
+              </div>
+            </div>
+          </section>
+
+          <section class="friends-section" id="all-friends">
+            <div class="friends-orbit-layout reveal">
+              <div class="friends-story"><p class="section-label">02 / MANY INTERESTS · 自我介绍</p><h2 class="friends-lead">好奇心很强，<br />对什么都感兴趣。</h2><div class="friends-copy"><p>在群聊里，我经常是交织的中点，跟谁都能聊上几句。话题大到科学、艺术、历史与金融，小到体育、娱乐、综艺和网梗。</p><p>曾经会为无法专注而痛苦自责，现在学会接纳自己：ADHD 让大脑每天超载，也让我随时随地都在联想和追问。</p></div></div>
+              <div class="interest-orbit" aria-label="兴趣切片同心文字轮盘">
+                <svg class="interest-wheel" viewBox="0 0 700 700" role="img" aria-labelledby="interestWheelTitle"><title id="interestWheelTitle">我的兴趣文字轮盘</title><defs>
+                  <path id="interest-orbit-1" d="M350,350 m-322,0 a322,322 0 1,1 644,0 a322,322 0 1,1 -644,0" />
+                  <path id="interest-orbit-2" d="M350,350 m-292,0 a292,292 0 1,1 584,0 a292,292 0 1,1 -584,0" />
+                  <path id="interest-orbit-3" d="M350,350 m-262,0 a262,262 0 1,1 524,0 a262,262 0 1,1 -524,0" />
+                  <path id="interest-orbit-4" d="M350,350 m-232,0 a232,232 0 1,1 464,0 a232,232 0 1,1 -464,0" />
+                  <path id="interest-orbit-5" d="M350,350 m-202,0 a202,202 0 1,1 404,0 a202,202 0 1,1 -404,0" />
+                  <path id="interest-orbit-6" d="M350,350 m-172,0 a172,172 0 1,1 344,0 a172,172 0 1,1 -344,0" />
+                  <path id="interest-orbit-7" d="M350,350 m-142,0 a142,142 0 1,1 284,0 a142,142 0 1,1 -284,0" />
+                  <path id="interest-orbit-8" d="M350,350 m-116,0 a116,116 0 1,1 232,0 a116,116 0 1,1 -232,0" />
+                  <path id="interest-orbit-9" d="M350,350 m-93,0 a93,93 0 1,1 186,0 a93,93 0 1,1 -186,0" />
+                  <path id="interest-orbit-10" d="M350,350 m-72,0 a72,72 0 1,1 144,0 a72,72 0 1,1 -144,0" />
+                </defs>
+                  <g class="interest-ring ring-1"><use href="#interest-orbit-1" /><text><textPath href="#interest-orbit-1">是个小穿搭博主 · 小学就喜欢买时尚杂志 · 幻想过如果能重来要选工业设计 · 喜欢 Dieter Rams 的设计 · 卷发护理有点研究 ·</textPath></text></g>
+                  <g class="interest-ring ring-2"><use href="#interest-orbit-2" /><text><textPath href="#interest-orbit-2">当年考同济是为了学建筑 · 为什么没有低门槛室内设计软件 · 一年前就想做家居博主 · 想要提高账号的画面质感 · 会淘好看的线香座 ·</textPath></text></g>
+                  <g class="interest-ring ring-3"><use href="#interest-orbit-3" /><text><textPath href="#interest-orbit-3">想学高级的调色 · 大四周末学了一年珠宝设计 · 喜欢陶瓷的温润质感 · 学过水墨画 · 也学过素描 · 最近研究怎么防脱 ·</textPath></text></g>
+                  <g class="interest-ring ring-4"><use href="#interest-orbit-4" /><text><textPath href="#interest-orbit-4">可惜没当上十大歌手 · 唱 rap 的时候好爽 · 考了萨克斯 9 级 · 跟着老婆嗨听 BLACKPINK · 小品八级学者 ·</textPath></text></g>
+                  <g class="interest-ring ring-5"><use href="#interest-orbit-5" /><text><textPath href="#interest-orbit-5">投篮使我平静 · 单板双板都能滑点 · 想去冲浪了 · 上班偷偷看点 NBA · 功能性训练理论家 ·</textPath></text></g>
+                  <g class="interest-ring ring-6"><use href="#interest-orbit-6" /><text><textPath href="#interest-orbit-6">4 年股民刚刚回本 · 看勇哥连麦餐饮创业下饭 · 写过宠物服务创业计划书 · 间断性研究全球宜居城市 · 没少听评书 ·</textPath></text></g>
+                  <g class="interest-ring ring-7"><use href="#interest-orbit-7" /><text><textPath href="#interest-orbit-7">最近新养了好几盆植物 · 装修时整理了上万字家电选购指南 · 给全屋定制研究透了 · 有 20 多瓶香水 · 牙医诊所多年常客 ·</textPath></text></g>
+                  <g class="interest-ring ring-8"><use href="#interest-orbit-8" /><text><textPath href="#interest-orbit-8">备忘录里存了十几个纹身灵感 · 不炒鞋的 sneaker · 拆解过服装面料 · 喜欢看恋综的直男 · 元旦联欢表演相声 ·</textPath></text></g>
+                  <g class="interest-ring ring-9"><use href="#interest-orbit-9" /><text><textPath href="#interest-orbit-9">现在没啥时间玩游戏了 · 偶尔周末玩玩桌游 · 德州扑克还是很刺激的 · 最爱的国家是西班牙 · 会接抛三个球 ·</textPath></text></g>
+                  <g class="interest-ring ring-10"><use href="#interest-orbit-10" /><text><textPath href="#interest-orbit-10">高迪的建筑我爱死了 · 杭州的住宅盖得比上海好太多了吧 ·</textPath></text></g>
+                </svg>
+                <div class="orbit-center"><strong>兴趣切片</strong></div>
+              </div>
+            </div>
+            <div class="input-section reveal" id="recent-input"><div><p class="section-label">2026 / 最近在看</p><h2>今年的输入列表</h2></div><div class="input-columns"><section><span>READING / 书</span><p>《乔布斯传》</p><p>《量子力学史话》</p><p>《创意行为》</p><p>《李诞工作手册》</p><p>《球状闪电》</p><p>《穷爸爸富爸爸》</p></section><section><span>WATCHING / 剧</span><p>《雍正王朝》</p><p>《走向共和》</p><p>《校园之外》</p><p>重温《风骚律师》</p></section><section><span>SHOWS / 综艺</span><p>两档《脱口秀》</p><p>《我是歌手》</p><p>《半熟恋人》</p><p>《心动的信号》</p><p>《一饭封神》</p><p>《现在就出发 2》怎么还没播！</p></section></div></div>
+            <div class="song-card reveal">
+              <div class="song-visual"><div class="song-route" aria-hidden="true"><span>SHANGHAI</span><i></i><span>SAPPORO</span></div><button class="song-disc" type="button" data-song-toggle aria-label="播放《札幌航线 Vol.2》"><i></i><small>点击播放</small></button></div>
+              <div class="song-copy"><p class="section-label">手搓写歌尝试</p><h3>札幌航线<br />Vol.2</h3><p>不会乐理的我在前 AI 时代给自己接了个大活，笨拙地靠语音备忘录哼唱手搓写歌。像这次尝试做网页一样，相信“求其上得其中”的道理。</p><div class="song-player"><button type="button" data-song-toggle><span>▶</span><b>播放歌曲</b></button><div class="song-progress"><i></i></div><time id="songTime">00:00 / --:--</time></div><audio id="sapporoAudio" src="./media/sapporo-route-279.mp3" preload="metadata"></audio></div>
+            </div>
+          </section>
+        </div>
+        <nav class="chapter-footer" aria-label="继续浏览作品章节"><a href="#/" data-route="home"><span>00</span><strong>回到光谱</strong><i>↗</i></a><a href="#/science" data-route="science"><span>01</span><strong>科学理性</strong><i>←</i></a><a href="#/art" data-route="art"><span>02</span><strong>审美创造</strong><i>←</i></a></nav>
+      </section>
+    </main>
+
+    <footer class="global-footer" aria-hidden="true"><span>DYLAN GUAN · 2026</span><span>HANGZHOU / CHINA</span></footer>
+    <script src="./app.js"></script>
+  </body>
+</html>
