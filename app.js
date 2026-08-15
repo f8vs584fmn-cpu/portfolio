@@ -222,8 +222,14 @@ if (sapporoAudio) {
   const updateSongProgress = () => {
     const progress = Number.isFinite(sapporoAudio.duration) && sapporoAudio.duration > 0 ? (sapporoAudio.currentTime / sapporoAudio.duration) * 100 : 0;
     songProgress.style.setProperty("--song-progress", `${progress}%`);
+    songProgress.value = progress;
     songTime.textContent = `${formatAudioTime(sapporoAudio.currentTime)} / ${formatAudioTime(sapporoAudio.duration)}`;
   };
+  songProgress.addEventListener("input", () => {
+    if (!Number.isFinite(sapporoAudio.duration) || sapporoAudio.duration <= 0) return;
+    sapporoAudio.currentTime = (Number(songProgress.value) / 100) * sapporoAudio.duration;
+    updateSongProgress();
+  });
   sapporoAudio.addEventListener("loadedmetadata", updateSongProgress);
   sapporoAudio.addEventListener("timeupdate", updateSongProgress);
   syncSongState();
