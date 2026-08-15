@@ -129,15 +129,46 @@ function openVideo(slide) {
 document.querySelectorAll(".video-slide").forEach((slide) => {
   const preview = slide.querySelector("video");
   const playButton = slide.querySelector(".video-play");
+  const source = preview.getAttribute("src") || preview.dataset.src;
+  preview.dataset.src = source;
+  preview.removeAttribute("src");
+  preview.preload = "none";
   preview.addEventListener("loadeddata", () => {
     if (preview.currentTime === 0) preview.currentTime = 0.05;
   }, { once: true });
-  slide.addEventListener("pointerenter", () => preview.play().catch(() => {}));
+  const loadPreview = () => {
+    if (!preview.getAttribute("src")) {
+      preview.src = preview.dataset.src;
+      preview.preload = "metadata";
+      preview.load();
+    }
+  };
+  slide.addEventListener("pointerenter", () => {
+    if (!matchMedia("(pointer: fine)").matches) return;
+    loadPreview();
+    preview.play().catch(() => {});
+  });
   slide.addEventListener("pointerleave", () => {
+    if (!matchMedia("(pointer: fine)").matches) return;
     preview.pause();
     preview.currentTime = 0.05;
   });
-  playButton.addEventListener("click", () => openVideo(slide));
+  playButton.addEventListener("click", () => {
+    loadPreview();
+    openVideo(slide);
+  });
+  const previewObserver = new IntersectionObserver((entries) => {
+    if (entries.some((entry) => entry.isIntersecting)) {
+      loadPreview();
+      previewObserver.disconnect();
+    }
+  }, { rootMargin: "220px 0px", threshold: 0.01 });
+  previewObserver.observe(slide);
+});
+
+document.querySelectorAll("img").forEach((image, index) => {
+  if (index > 1) image.loading = "lazy";
+  image.decoding = "async";
 });
 
 document.querySelectorAll("[data-section-jump]").forEach((button) => {

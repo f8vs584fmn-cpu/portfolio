@@ -792,3 +792,194 @@ button { color: inherit; font: inherit; }
   .chapter-footer { grid-template-columns: 1fr; padding-inline: 20px; }
   .chapter-footer a { min-height: 130px; border-right: 0; }
 }
+
+/* Mobile experience: preserve the prism composition without scaling the desktop canvas off-screen. */
+@media (max-width: 620px) {
+  html { scroll-padding-top: 68px; }
+  body { -webkit-text-size-adjust: 100%; }
+  .noise { opacity: .025; }
+
+  .home {
+    height: 100svh;
+    min-height: 620px;
+    overflow: hidden;
+  }
+  .identity {
+    left: 24px;
+    top: calc(env(safe-area-inset-top, 0px) + 42px);
+    translate: 0;
+    gap: 8px;
+    font-size: 21px;
+    letter-spacing: -.035em;
+  }
+  .identity-cn { font-size: 11px; }
+  .prism-stage {
+    inset: 0;
+    left: 0;
+    top: 0;
+    width: 100%;
+    transform: none;
+  }
+  .reference-optics {
+    left: 50%;
+    top: 44%;
+    width: 200vw;
+    min-width: 700px;
+    max-width: 800px;
+    translate: -34.4% -50%;
+  }
+  .light-system {
+    left: 50%;
+    top: 44%;
+    width: 200vw;
+    min-width: 700px;
+    max-width: 800px;
+    translate: -34.4% -50%;
+  }
+  .prism-hit {
+    left: 50%;
+    top: 44%;
+    width: min(58vw, 230px);
+    translate: -50% -48%;
+  }
+  .prism-hit:focus { outline: none; }
+  .touch-copy {
+    min-width: 156px;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+  .touch-copy > span { font-size: 13px; }
+  .touch-copy small { font-size: 9px; }
+  .theme-nav {
+    left: 24px;
+    right: 24px;
+    top: auto;
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 22px);
+    width: auto;
+    translate: 0;
+    gap: 0;
+  }
+  .theme-link,
+  .theme-link.science,
+  .theme-link.art,
+  .theme-link.curiosity {
+    --shift-y: 0px;
+    grid-template-columns: 7px 1fr;
+    gap: 12px;
+    min-height: 58px;
+    padding: 12px 2px;
+    border-top: 1px solid rgba(255,255,255,.2);
+    transform: translateY(12px);
+    backdrop-filter: blur(8px);
+  }
+  .is-awake .theme-link { transform: translateY(0); }
+  .theme-text { width: 100%; flex-direction: row; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .theme-text strong { font-size: 18px; white-space: nowrap; }
+  .theme-text i { display: none; }
+  .theme-text small { font-size: 10px; line-height: 1.35; white-space: normal; text-align: right; }
+  .theme-dot { margin-top: .55em; }
+  .home-note { display: none; }
+  .ambient-light { inset: -5%; }
+  .ambient-light::before { filter: blur(50px); }
+
+  .site-header {
+    height: 64px;
+    padding: 0 18px;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .wordmark { font-size: 20px; }
+  .mini-nav { gap: 15px; font-size: 9px; letter-spacing: .1em; }
+  .back-link { gap: 7px; font-size: 9px; }
+  .back-link span { font-size: 19px; }
+
+  .detail-hero {
+    height: auto;
+    min-height: 100svh;
+    padding: max(128px, 18vh) 22px 54px;
+  }
+  .detail-hero h1 {
+    max-width: 100%;
+    font-size: clamp(64px, 21vw, 86px);
+    line-height: .92;
+    letter-spacing: -.075em;
+  }
+  .detail-hero .hero-lede,
+  .detail-science .hero-lede,
+  .curiosity-hero .hero-lede {
+    max-width: 100%;
+    margin: 42px 0 0;
+    font-size: 18px;
+    line-height: 1.52;
+  }
+  .art-part-nav,
+  .curiosity-part-nav,
+  .science-part-nav {
+    width: 100%;
+    margin: 40px 0 0;
+  }
+  .art-part-nav button { grid-template-columns: 34px 1fr 16px; padding: 14px 0; }
+  .art-part-nav strong { font-size: 16px; }
+
+  .content-wrap,
+  .content-wrap.wide { padding-inline: 20px; }
+  .science-chapter,
+  .creator-entry,
+  .portfolio-section,
+  .brand-section,
+  .ad-experience { padding-block: 88px; }
+  .science-chapter-grid { gap: 44px; }
+  .science-chapter-title h2 { font-size: clamp(43px, 13vw, 55px); line-height: .96; }
+  .science-chapter-title > p,
+  .patent-chapter .science-chapter-title > p { font-size: 19px; line-height: 1.45; }
+  .education-columns { gap: 38px; }
+  .credential-card { height: min(112vw, 470px); }
+  .patent-role h3 { white-space: normal; font-size: 28px; }
+  .patent-role p { white-space: normal; font-size: 16px; line-height: 1.35; }
+  .review-flow ol { grid-template-columns: 1fr; }
+  .english-grid { gap: 40px; }
+
+  .detail-art .creator-entry { grid-template-columns: 1fr; gap: 44px; padding-bottom: 95px; }
+  .creator-summary h2 { margin-bottom: 30px; font-size: clamp(43px, 13vw, 56px); }
+  .creator-summary h2 span { white-space: normal; }
+  .creator-note { margin-bottom: 48px; font-size: 16px; }
+  .creator-summary .creator-stats > div { min-height: 120px; }
+  .creator-summary .creator-stats strong { font-size: 48px; }
+  .profile-avatar-link img { width: min(78vw, 330px); margin-inline: auto; }
+  .case-part { padding-block: 82px; gap: 34px; }
+  .case-part .case-chapter h2,
+  .comparison-part .case-chapter h2,
+  .first-video-part .case-chapter h2,
+  .commercial-part .case-chapter h2 { font-size: clamp(34px, 10.5vw, 44px); }
+  .case-part .case-chapter h2 span { white-space: normal; }
+  .case-part .case-rail { width: calc(100% + 20px); margin-right: -20px; gap: 14px; padding-right: 20px; }
+  .case-part .case-rail > .video-slide,
+  .case-part .case-rail > .image-slide,
+  .case-part .case-rail.single-case > .video-slide { flex-basis: 82vw; }
+  .case-part .video-frame,
+  .case-part .case-frame { height: min(62vh, 535px); }
+  .video-play { opacity: 1; }
+  .video-frame video:not([src]) { opacity: 0; }
+  .video-frame { background: radial-gradient(circle at 50% 38%, #25313a, #0b0f13 68%); }
+  .video-meta { gap: 12px; }
+  .video-meta h3 { font-size: 21px; }
+  .brand-logo-wall { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 34px 16px; }
+  .ad-copy,
+  .ad-history,
+  .ad-case-grid { grid-template-columns: 1fr; }
+  .ad-history article + article { padding-left: 0; border-left: 0; border-top: 1px solid #c4bfb7; }
+
+  .ideas-section .section-heading h2 { overflow-wrap: anywhere; white-space: normal; font-size: clamp(28px, 9vw, 38px); line-height: 1.02; }
+  .idea-stage { height: 470px; }
+  .idea-card { flex-basis: 242px; height: 350px; }
+  .friends-section { padding: 86px 20px; }
+  .friends-story h2.friends-lead { font-size: 36px; }
+  .interest-orbit { width: 118vw; margin-left: -9vw; }
+  .song-visual { min-height: 390px; }
+  .song-copy h3 { font-size: 40px; }
+  .input-section { margin-top: 90px; padding-top: 55px; }
+  .input-section h2 { white-space: normal; font-size: 42px; }
+  .chapter-footer a { padding: 26px 20px; }
+
+  .video-modal { width: calc(100% - 16px); }
+  .video-modal-screen video { height: 62svh; }
+}
