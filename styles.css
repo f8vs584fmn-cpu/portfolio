@@ -1007,19 +1007,17 @@ button { color: inherit; font: inherit; }
   .case-part,
   .brand-section,
   .ad-experience,
-  .ideas-section,
   .friends-section { content-visibility: auto; contain-intrinsic-size: auto 900px; }
+
+  /* Keep every topic card paintable on iOS while horizontally off-screen. */
+  .ideas-section { content-visibility: visible; contain: none; }
 
   .ideas-section .section-heading h2 { overflow-wrap: anywhere; white-space: normal; font-size: clamp(28px, 9vw, 38px); line-height: 1.02; }
   .idea-stage { height: auto; min-height: 0; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 9vw; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; touch-action: auto; cursor: auto; }
-  .idea-stage.is-transform-carousel { overflow: hidden; scroll-snap-type: none; touch-action: pan-y; }
-  .idea-stage.is-transform-carousel .idea-track { transform: translate3d(var(--mobile-idea-offset, 0px), 0, 0) !important; will-change: transform; }
-  .idea-stage.is-transform-carousel.is-settling .idea-track { transition: transform .34s cubic-bezier(.22,.72,.22,1); }
-  .idea-stage.is-transform-carousel.is-dragging .idea-track { transition: none; }
   .idea-stage-note { position: absolute; top: 17px; left: 20px; right: auto; width: auto; height: auto; padding: 0; justify-content: flex-start; color: #b1bdce; }
   .idea-note-desktop { display: none; }
   .idea-note-mobile { display: inline; }
-  .idea-track { top: 0; gap: 16px; margin-top: 0; padding: 54px 9vw 36px; transform: none !important; contain: layout paint; }
+  .idea-track { top: 0; gap: 16px; margin-top: 0; padding: 54px 9vw 36px; transform: none !important; contain: none; will-change: auto; backface-visibility: visible; -webkit-backface-visibility: visible; }
   .idea-card { flex-basis: min(82vw, 318px); height: clamp(390px, 112vw, 430px); scroll-snap-align: center; scroll-snap-stop: always; }
   .idea-cover, .idea-detail { padding: 22px 20px 20px; }
   .idea-cover h3 { font-size: clamp(28px, 8.4vw, 34px); }
