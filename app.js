@@ -17,13 +17,16 @@ let glowTargetX = 78;
 let glowTargetY = 50;
 let glowCurrentX = 78;
 let glowCurrentY = 50;
+const finePointerQuery = matchMedia("(pointer: fine)");
 
-home.addEventListener("pointermove", (event) => {
-  home.style.setProperty("--mx", `${(event.clientX / innerWidth) * 100}%`);
-  home.style.setProperty("--my", `${(event.clientY / innerHeight) * 100}%`);
-  glowTargetX = (event.clientX / innerWidth) * 100;
-  glowTargetY = (event.clientY / innerHeight) * 100;
-});
+if (finePointerQuery.matches) {
+  home.addEventListener("pointermove", (event) => {
+    home.style.setProperty("--mx", `${(event.clientX / innerWidth) * 100}%`);
+    home.style.setProperty("--my", `${(event.clientY / innerHeight) * 100}%`);
+    glowTargetX = (event.clientX / innerWidth) * 100;
+    glowTargetY = (event.clientY / innerHeight) * 100;
+  });
+}
 
 function softenHomeGlow() {
   glowCurrentX += (glowTargetX - glowCurrentX) * 0.038;
@@ -33,7 +36,7 @@ function softenHomeGlow() {
   requestAnimationFrame(softenHomeGlow);
 }
 
-requestAnimationFrame(softenHomeGlow);
+if (finePointerQuery.matches) requestAnimationFrame(softenHomeGlow);
 
 const glowColors = {
   science: "86, 199, 255",
@@ -91,7 +94,7 @@ function observeReveals() {
 
 observeReveals();
 
-if (matchMedia("(pointer: fine)").matches) {
+if (finePointerQuery.matches) {
   window.addEventListener("pointermove", (event) => {
     cursor.style.transform = `translate(${event.clientX}px, ${event.clientY}px)`;
   });
@@ -154,16 +157,8 @@ document.querySelectorAll(".video-slide").forEach((slide) => {
     preview.currentTime = 0.05;
   });
   playButton.addEventListener("click", () => {
-    loadPreview();
     openVideo(slide);
   });
-  const previewObserver = new IntersectionObserver((entries) => {
-    if (entries.some((entry) => entry.isIntersecting)) {
-      loadPreview();
-      previewObserver.disconnect();
-    }
-  }, { rootMargin: "220px 0px", threshold: 0.01 });
-  previewObserver.observe(slide);
 });
 
 document.querySelectorAll("img").forEach((image, index) => {
@@ -183,6 +178,35 @@ document.querySelectorAll(".idea-track").forEach((track) => {
   const sourceCards = [...track.children];
   const stage = track.closest(".idea-stage");
   sourceCards.forEach((card) => { card.tabIndex = 0; });
+
+  const toggleMobileCard = (event, moved = false) => {
+    const card = event.target.closest(".idea-card");
+    if (!card || !stage.contains(card)) return;
+    if (moved) {
+      event.preventDefault();
+      return;
+    }
+    const willOpen = !card.classList.contains("is-open");
+    stage.querySelectorAll(".idea-card.is-open").forEach((item) => item.classList.remove("is-open"));
+    card.classList.toggle("is-open", willOpen);
+  };
+
+  if (matchMedia("(max-width: 620px)").matches) {
+    let touchStartX = 0;
+    let touchMoved = false;
+    stage.classList.add("is-native-scroll");
+    stage.addEventListener("pointerdown", (event) => {
+      touchStartX = event.clientX;
+      touchMoved = false;
+    }, { passive: true });
+    stage.addEventListener("pointermove", (event) => {
+      touchMoved ||= Math.abs(event.clientX - touchStartX) > 8;
+    }, { passive: true });
+    stage.addEventListener("click", (event) => toggleMobileCard(event, touchMoved));
+    track.dataset.loopReady = "true";
+    return;
+  }
+
   for (let copy = 0; copy < 1; copy += 1) sourceCards.forEach((card) => {
     const clone = card.cloneNode(true);
     clone.setAttribute("aria-hidden", "true");
@@ -274,18 +298,11 @@ document.querySelectorAll(".idea-track").forEach((track) => {
   stage.addEventListener("pointercancel", finishIdeaDrag);
 
   stage.addEventListener("click", (event) => {
-    const card = event.target.closest(".idea-card");
-    if (!card || !stage.contains(card)) return;
-    if (moved) {
-      event.preventDefault();
-      return;
-    }
     if (finePointer.matches) return;
-    const willOpen = !card.classList.contains("is-open");
-    stage.querySelectorAll(".idea-card.is-open").forEach((item) => item.classList.remove("is-open"));
-    card.classList.toggle("is-open", willOpen);
-    setPaused(willOpen);
-    if (!willOpen) resumeSoon(250);
+    toggleMobileCard(event, moved);
+    const hasOpenCard = Boolean(stage.querySelector(".idea-card.is-open"));
+    setPaused(hasOpenCard);
+    if (!hasOpenCard) resumeSoon(250);
   });
 
   measureLoop();
