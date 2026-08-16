@@ -201,56 +201,79 @@ document.querySelectorAll(".idea-track").forEach((track) => {
   };
 
   if (matchMedia("(max-width: 620px)").matches) {
-    let touchStartX = 0;
+    let offset = 0;
+    let maxOffset = 0;
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+    let dragging = false;
     let touchMoved = false;
-    stage.classList.add("is-native-scroll");
+
+    stage.classList.add("is-transform-carousel");
+
+    const clampOffset = (value) => Math.max(0, Math.min(maxOffset, value));
+    const renderMobileCarousel = () => {
+      offset = clampOffset(offset);
+      track.style.setProperty("--mobile-idea-offset", `${-offset}px`);
+      syncScrubber(maxOffset ? (offset / maxOffset) * 100 : 0);
+    };
+    const measureMobileCarousel = () => {
+      const progress = maxOffset ? offset / maxOffset : 0;
+      maxOffset = Math.max(0, track.scrollWidth - stage.clientWidth);
+      offset = progress * maxOffset;
+      renderMobileCarousel();
+    };
+    const snapToNearestCard = () => {
+      if (!sourceCards.length) return;
+      const target = sourceCards.reduce((nearest, card) => {
+        const cardOffset = clampOffset(card.offsetLeft - (stage.clientWidth - card.offsetWidth) / 2);
+        return Math.abs(cardOffset - offset) < Math.abs(nearest - offset) ? cardOffset : nearest;
+      }, clampOffset(sourceCards[0].offsetLeft - (stage.clientWidth - sourceCards[0].offsetWidth) / 2));
+      stage.classList.add("is-settling");
+      offset = target;
+      renderMobileCarousel();
+      window.setTimeout(() => stage.classList.remove("is-settling"), 380);
+    };
+
     stage.addEventListener("pointerdown", (event) => {
-      touchStartX = event.clientX;
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      dragging = true;
       touchMoved = false;
-    }, { passive: true });
+      dragStartX = event.clientX;
+      dragStartOffset = offset;
+      stage.classList.remove("is-settling");
+      stage.classList.add("is-dragging");
+      stage.setPointerCapture?.(event.pointerId);
+    });
     stage.addEventListener("pointermove", (event) => {
-      touchMoved ||= Math.abs(event.clientX - touchStartX) > 8;
-    }, { passive: true });
+      if (!dragging) return;
+      const distance = event.clientX - dragStartX;
+      touchMoved ||= Math.abs(distance) > 7;
+      offset = clampOffset(dragStartOffset - distance);
+      renderMobileCarousel();
+    });
+    const finishMobileDrag = (event) => {
+      if (!dragging) return;
+      dragging = false;
+      stage.classList.remove("is-dragging");
+      if (stage.hasPointerCapture?.(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+      if (touchMoved) snapToNearestCard();
+    };
+    stage.addEventListener("pointerup", finishMobileDrag);
+    stage.addEventListener("pointercancel", finishMobileDrag);
     stage.addEventListener("click", (event) => toggleMobileCard(event, touchMoved));
-    const syncNativeScroll = () => {
-      const maxScroll = Math.max(1, stage.scrollWidth - stage.clientWidth);
-      syncScrubber((stage.scrollLeft / maxScroll) * 100);
-    };
-    stage.addEventListener("scroll", syncNativeScroll, { passive: true });
-
-    const setNativeScrollFromScrubber = (value) => {
-      const maxScroll = Math.max(0, stage.scrollWidth - stage.clientWidth);
-      const progress = Math.max(0, Math.min(100, Number(value) || 0));
-      const scrubTarget = (progress / 100) * maxScroll;
-      syncScrubber(progress);
-      stage.scrollLeft = scrubTarget;
-    };
-
-    const beginScrubbing = () => {
-      stage.classList.add("is-scrubbing");
-      stage.style.scrollSnapType = "none";
-    };
-    const finishScrubbing = () => {
-      setNativeScrollFromScrubber(scrubber?.value || 0);
-      requestAnimationFrame(() => {
-        stage.classList.remove("is-scrubbing");
-        stage.style.removeProperty("scroll-snap-type");
-      });
-    };
 
     if (scrubber) {
-      scrubber.addEventListener("pointerdown", beginScrubbing);
-      scrubber.addEventListener("touchstart", beginScrubbing, { passive: true });
-      scrubber.addEventListener("input", (event) => {
-        beginScrubbing();
-        setNativeScrollFromScrubber(event.currentTarget.value);
-      });
-      scrubber.addEventListener("change", finishScrubbing);
-      scrubber.addEventListener("pointerup", finishScrubbing);
-      scrubber.addEventListener("pointercancel", finishScrubbing);
-      scrubber.addEventListener("touchend", finishScrubbing, { passive: true });
+      const setMobileOffsetFromScrubber = (value) => {
+        stage.classList.remove("is-settling");
+        offset = (Math.max(0, Math.min(100, Number(value) || 0)) / 100) * maxOffset;
+        renderMobileCarousel();
+      };
+      scrubber.addEventListener("input", (event) => setMobileOffsetFromScrubber(event.currentTarget.value));
+      scrubber.addEventListener("change", snapToNearestCard);
     }
-    requestAnimationFrame(syncNativeScroll);
+
+    new ResizeObserver(measureMobileCarousel).observe(stage);
+    requestAnimationFrame(measureMobileCarousel);
     track.dataset.loopReady = "true";
     return;
   }
