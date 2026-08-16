@@ -177,7 +177,16 @@ document.querySelectorAll(".idea-track").forEach((track) => {
   if (track.dataset.loopReady) return;
   const sourceCards = [...track.children];
   const stage = track.closest(".idea-stage");
+  const scrubber = stage.nextElementSibling?.matches(".idea-scrubber") ? stage.nextElementSibling.querySelector("input") : null;
+  const scrubberShell = scrubber?.closest(".idea-scrubber");
   sourceCards.forEach((card) => { card.tabIndex = 0; });
+
+  const syncScrubber = (value) => {
+    if (!scrubber) return;
+    const progress = Math.max(0, Math.min(100, value));
+    scrubber.value = progress;
+    scrubberShell.style.setProperty("--idea-progress", `${progress}%`);
+  };
 
   const toggleMobileCard = (event, moved = false) => {
     const card = event.target.closest(".idea-card");
@@ -203,6 +212,17 @@ document.querySelectorAll(".idea-track").forEach((track) => {
       touchMoved ||= Math.abs(event.clientX - touchStartX) > 8;
     }, { passive: true });
     stage.addEventListener("click", (event) => toggleMobileCard(event, touchMoved));
+    const syncNativeScroll = () => {
+      const maxScroll = Math.max(1, stage.scrollWidth - stage.clientWidth);
+      syncScrubber((stage.scrollLeft / maxScroll) * 100);
+    };
+    stage.addEventListener("scroll", syncNativeScroll, { passive: true });
+    scrubber?.addEventListener("input", () => {
+      const maxScroll = Math.max(0, stage.scrollWidth - stage.clientWidth);
+      stage.scrollLeft = (Number(scrubber.value) / 100) * maxScroll;
+      syncScrubber(Number(scrubber.value));
+    });
+    requestAnimationFrame(syncNativeScroll);
     track.dataset.loopReady = "true";
     return;
   }
@@ -253,6 +273,7 @@ document.querySelectorAll(".idea-track").forEach((track) => {
       offset = (offset + (elapsed / 1000) * speed) % loopWidth;
     }
     track.style.transform = `translate3d(${-offset.toFixed(2)}px,0,0)`;
+    syncScrubber((offset / loopWidth) * 100);
     requestAnimationFrame(renderIdeaLoop);
   };
 
@@ -296,6 +317,16 @@ document.querySelectorAll(".idea-track").forEach((track) => {
   };
   stage.addEventListener("pointerup", finishIdeaDrag);
   stage.addEventListener("pointercancel", finishIdeaDrag);
+
+  scrubber?.addEventListener("pointerdown", () => {
+    clearTimeout(resumeTimer);
+    setPaused(true);
+  });
+  scrubber?.addEventListener("input", () => {
+    offset = (Number(scrubber.value) / 100) * loopWidth;
+    syncScrubber(Number(scrubber.value));
+  });
+  scrubber?.addEventListener("change", () => resumeSoon(900));
 
   stage.addEventListener("click", (event) => {
     if (finePointer.matches) return;
