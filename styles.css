@@ -370,7 +370,7 @@ button { color: inherit; font: inherit; }
 .idea-track { position: relative; z-index: 2; display: flex; width: max-content; gap: 22px; margin-top: clamp(95px, 10vw, 135px); padding: 0 11px; will-change: transform; transform: translate3d(0,0,0); backface-visibility: hidden; -webkit-backface-visibility: hidden; contain: layout paint; }
 .idea-stage.is-dragging { cursor: grabbing; }
 .idea-scrubber { --idea-progress: 0%; width: min(1320px, calc(100% - clamp(48px, 10vw, 160px))); margin: clamp(30px, 3vw, 46px) auto 0; display: grid; grid-template-columns: auto minmax(0,1fr) auto; align-items: center; gap: 18px; color: #777e89; font: 10px ui-monospace, monospace; letter-spacing: .14em; }
-.idea-scrubber input { width: 100%; height: 24px; margin: 0; padding: 0; border: 0; appearance: none; -webkit-appearance: none; background: transparent; cursor: ew-resize; touch-action: none; }
+.idea-scrubber input { width: 100%; height: 24px; margin: 0; padding: 0; border: 0; appearance: none; -webkit-appearance: none; background: transparent; cursor: ew-resize; touch-action: pan-x; }
 .idea-scrubber input::-webkit-slider-runnable-track { height: 2px; border-radius: 2px; background: linear-gradient(90deg, #256ee8 0 var(--idea-progress), #c8c7c3 var(--idea-progress) 100%); }
 .idea-scrubber input::-moz-range-track { height: 2px; border-radius: 2px; background: linear-gradient(90deg, #256ee8 0 var(--idea-progress), #c8c7c3 var(--idea-progress) 100%); }
 .idea-scrubber input::-webkit-slider-thumb { width: 18px; height: 18px; margin-top: -8px; border: 2px solid #f4f1eb; border-radius: 50%; appearance: none; -webkit-appearance: none; background: #1761d7; box-shadow: 0 0 0 1px #1761d7, 0 4px 12px rgba(20,54,108,.25); }
@@ -1012,6 +1012,7 @@ button { color: inherit; font: inherit; }
 
   .ideas-section .section-heading h2 { overflow-wrap: anywhere; white-space: normal; font-size: clamp(28px, 9vw, 38px); line-height: 1.02; }
   .idea-stage { height: auto; min-height: 0; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-padding-inline: 9vw; overscroll-behavior-inline: contain; -webkit-overflow-scrolling: touch; touch-action: auto; cursor: auto; }
+  .idea-stage.is-scrubbing { scroll-snap-type: none; scroll-behavior: auto; }
   .idea-stage-note { position: absolute; top: 17px; left: 20px; right: auto; width: auto; height: auto; padding: 0; justify-content: flex-start; color: #b1bdce; }
   .idea-note-desktop { display: none; }
   .idea-note-mobile { display: inline; }

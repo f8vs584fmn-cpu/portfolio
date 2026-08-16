@@ -217,11 +217,39 @@ document.querySelectorAll(".idea-track").forEach((track) => {
       syncScrubber((stage.scrollLeft / maxScroll) * 100);
     };
     stage.addEventListener("scroll", syncNativeScroll, { passive: true });
-    scrubber?.addEventListener("input", () => {
+
+    const setNativeScrollFromScrubber = (value) => {
       const maxScroll = Math.max(0, stage.scrollWidth - stage.clientWidth);
-      stage.scrollLeft = (Number(scrubber.value) / 100) * maxScroll;
-      syncScrubber(Number(scrubber.value));
-    });
+      const progress = Math.max(0, Math.min(100, Number(value) || 0));
+      const scrubTarget = (progress / 100) * maxScroll;
+      syncScrubber(progress);
+      stage.scrollLeft = scrubTarget;
+    };
+
+    const beginScrubbing = () => {
+      stage.classList.add("is-scrubbing");
+      stage.style.scrollSnapType = "none";
+    };
+    const finishScrubbing = () => {
+      setNativeScrollFromScrubber(scrubber?.value || 0);
+      requestAnimationFrame(() => {
+        stage.classList.remove("is-scrubbing");
+        stage.style.removeProperty("scroll-snap-type");
+      });
+    };
+
+    if (scrubber) {
+      scrubber.addEventListener("pointerdown", beginScrubbing);
+      scrubber.addEventListener("touchstart", beginScrubbing, { passive: true });
+      scrubber.addEventListener("input", (event) => {
+        beginScrubbing();
+        setNativeScrollFromScrubber(event.currentTarget.value);
+      });
+      scrubber.addEventListener("change", finishScrubbing);
+      scrubber.addEventListener("pointerup", finishScrubbing);
+      scrubber.addEventListener("pointercancel", finishScrubbing);
+      scrubber.addEventListener("touchend", finishScrubbing, { passive: true });
+    }
     requestAnimationFrame(syncNativeScroll);
     track.dataset.loopReady = "true";
     return;
