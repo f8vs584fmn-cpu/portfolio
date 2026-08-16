@@ -840,7 +840,8 @@ button { color: inherit; font: inherit; }
     z-index: 12;
     top: calc(env(safe-area-inset-top, 0px) + 48px);
     right: 20px;
-    max-width: 130px;
+    width: max-content;
+    max-width: none;
     margin: 0;
     color: rgba(255,255,255,.42);
     font-size: 9px;
@@ -848,6 +849,7 @@ button { color: inherit; font: inherit; }
     letter-spacing: .08em;
     text-align: right;
   }
+  .mobile-desktop-note span { display: block; white-space: nowrap; }
   .prism-stage {
     inset: 0;
     left: 0;
