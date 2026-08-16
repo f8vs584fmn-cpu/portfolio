@@ -181,6 +181,7 @@ document.querySelectorAll("[data-section-jump]").forEach((button) => {
 document.querySelectorAll(".idea-track").forEach((track) => {
   if (track.dataset.loopReady) return;
   const sourceCards = [...track.children];
+  const stage = track.closest(".idea-stage");
   sourceCards.forEach((card) => { card.tabIndex = 0; });
   for (let copy = 0; copy < 1; copy += 1) sourceCards.forEach((card) => {
     const clone = card.cloneNode(true);
@@ -190,6 +191,105 @@ document.querySelectorAll(".idea-track").forEach((track) => {
     track.appendChild(clone);
   });
   track.dataset.loopReady = "true";
+
+  let offset = 0;
+  let loopWidth = 1;
+  let lastFrame = performance.now();
+  let paused = false;
+  let inView = false;
+  let dragging = false;
+  let moved = false;
+  let dragStartX = 0;
+  let dragStartOffset = 0;
+  let resumeTimer = 0;
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)");
+  const finePointer = matchMedia("(pointer: fine)");
+
+  const measureLoop = () => {
+    const firstClone = track.children[sourceCards.length];
+    loopWidth = Math.max(1, firstClone.offsetLeft - track.children[0].offsetLeft);
+    offset = ((offset % loopWidth) + loopWidth) % loopWidth;
+  };
+  const setPaused = (value) => {
+    paused = value;
+    stage.classList.toggle("is-paused", value);
+    lastFrame = performance.now();
+  };
+  const resumeSoon = (delay = 700) => {
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(() => {
+      if (!stage.querySelector(".idea-card.is-open")) setPaused(false);
+    }, delay);
+  };
+  const renderIdeaLoop = (now) => {
+    const elapsed = Math.min(50, now - lastFrame);
+    lastFrame = now;
+    if (inView && !paused && !dragging && !reducedMotion.matches) {
+      const speed = innerWidth <= 620 ? 27 : 36;
+      offset = (offset + (elapsed / 1000) * speed) % loopWidth;
+    }
+    track.style.transform = `translate3d(${-offset.toFixed(2)}px,0,0)`;
+    requestAnimationFrame(renderIdeaLoop);
+  };
+
+  if ("ResizeObserver" in window) new ResizeObserver(measureLoop).observe(track);
+  else addEventListener("resize", measureLoop, { passive: true });
+  new IntersectionObserver(([entry]) => {
+    inView = entry.isIntersecting;
+    lastFrame = performance.now();
+  }, { threshold: 0.02 }).observe(stage);
+  document.addEventListener("visibilitychange", () => { lastFrame = performance.now(); });
+
+  stage.addEventListener("pointerenter", () => {
+    if (finePointer.matches) setPaused(true);
+  });
+  stage.addEventListener("pointerleave", () => {
+    if (finePointer.matches && !stage.querySelector(".idea-card.is-open")) setPaused(false);
+  });
+  stage.addEventListener("pointerdown", (event) => {
+    if (event.button !== undefined && event.button !== 0) return;
+    clearTimeout(resumeTimer);
+    dragging = true;
+    moved = false;
+    dragStartX = event.clientX;
+    dragStartOffset = offset;
+    setPaused(true);
+    stage.classList.add("is-dragging");
+    stage.setPointerCapture?.(event.pointerId);
+  });
+  stage.addEventListener("pointermove", (event) => {
+    if (!dragging) return;
+    const distance = event.clientX - dragStartX;
+    moved ||= Math.abs(distance) > 6;
+    offset = ((dragStartOffset - distance) % loopWidth + loopWidth) % loopWidth;
+  });
+  const finishIdeaDrag = (event) => {
+    if (!dragging) return;
+    dragging = false;
+    stage.classList.remove("is-dragging");
+    if (stage.hasPointerCapture?.(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+    resumeSoon();
+  };
+  stage.addEventListener("pointerup", finishIdeaDrag);
+  stage.addEventListener("pointercancel", finishIdeaDrag);
+
+  stage.addEventListener("click", (event) => {
+    const card = event.target.closest(".idea-card");
+    if (!card || !stage.contains(card)) return;
+    if (moved) {
+      event.preventDefault();
+      return;
+    }
+    if (finePointer.matches) return;
+    const willOpen = !card.classList.contains("is-open");
+    stage.querySelectorAll(".idea-card.is-open").forEach((item) => item.classList.remove("is-open"));
+    card.classList.toggle("is-open", willOpen);
+    setPaused(willOpen);
+    if (!willOpen) resumeSoon(250);
+  });
+
+  measureLoop();
+  requestAnimationFrame(renderIdeaLoop);
 });
 
 const sapporoAudio = document.querySelector("#sapporoAudio");

@@ -356,7 +356,7 @@ button { color: inherit; font: inherit; }
 .ideas-section { scroll-margin-top: 88px; }
 .ideas-section .section-heading { width: min(1320px, calc(100% - clamp(48px, 10vw, 160px))); margin: 0 auto clamp(65px, 8vw, 120px); display: block; }
 .ideas-section .section-heading h2 { max-width: none; margin-top: clamp(28px, 4vw, 55px); font-size: clamp(30px, 4vw, 54px); line-height: 1; white-space: nowrap; letter-spacing: -.065em; }
-.idea-stage { position: relative; height: clamp(530px, 48vw, 690px); overflow: hidden; background: #080d18; border-block: 1px solid #24334e; user-select: none; }
+.idea-stage { position: relative; height: clamp(530px, 48vw, 690px); overflow: hidden; background: #080d18; border-block: 1px solid #24334e; user-select: none; touch-action: pan-y; cursor: grab; }
 .idea-stage::-webkit-scrollbar { display: none; }
 .idea-stage::before { content: ""; position: absolute; inset: 0; z-index: 0; opacity: .3; background-image: linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px); background-size: 42px 42px; }
 .idea-stage::after { display: none; }
@@ -364,9 +364,8 @@ button { color: inherit; font: inherit; }
 .idea-controls { display: flex; gap: 8px; pointer-events: auto; }
 .idea-controls button { width: 40px; height: 40px; padding: 0; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; color: #fff; background: rgba(5,13,28,.68); font-size: 18px; cursor: pointer; transition: color .2s, background .2s, transform .2s; }
 .idea-controls button:hover { color: #07101b; background: #fff; transform: scale(1.06); }
-.idea-track { position: relative; z-index: 2; display: flex; width: max-content; gap: 22px; margin-top: clamp(95px, 10vw, 135px); padding: 0 11px; animation: idea-marquee 150s linear infinite; will-change: transform; transform: translateZ(0); backface-visibility: hidden; }
-.idea-stage:hover .idea-track, .idea-stage:focus-within .idea-track { animation-play-state: paused; }
-@keyframes idea-marquee { to { transform: translate3d(calc(-50% - 11px), 0, 0); } }
+.idea-track { position: relative; z-index: 2; display: flex; width: max-content; gap: 22px; margin-top: clamp(95px, 10vw, 135px); padding: 0 11px; will-change: transform; transform: translate3d(0,0,0); backface-visibility: hidden; -webkit-backface-visibility: hidden; contain: layout paint; }
+.idea-stage.is-dragging { cursor: grabbing; }
 .idea-card { --tilt: -1.2deg; position: relative; flex: 0 0 clamp(270px, 22vw, 340px); height: clamp(385px, 34vw, 485px); overflow: hidden; color: #fff; background: #071329; border: 2px solid rgba(255,255,255,.88); border-radius: 2px; transform: rotate(var(--tilt)) translateY(9px); box-shadow: 0 25px 55px rgba(0,0,0,.48); transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s; }
 .idea-card:nth-child(3n+2) { --tilt: 2.2deg; transform: rotate(var(--tilt)) translateY(-4px); }
 .idea-card:nth-child(3n) { --tilt: -.7deg; transform: rotate(var(--tilt)) translateY(14px); }
@@ -381,7 +380,7 @@ button { color: inherit; font: inherit; }
 .cover-english .idea-cover h3 { font-size: clamp(23px, 1.85vw, 29px); line-height: 1.04; letter-spacing: -.045em; }
 .idea-cover em { position: relative; z-index: 2; align-self: flex-start; padding: 7px 9px; color: #fff; background: rgba(4,11,24,.78); font: 10px ui-monospace, monospace; letter-spacing: .1em; font-style: normal; }
 .idea-detail { z-index: 4; display: flex; flex-direction: column; justify-content: flex-end; background: rgba(7,9,13,.95); backdrop-filter: blur(14px); opacity: 0; transform: translateY(101%); transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .35s; }
-.idea-card:hover .idea-detail, .idea-card:focus-within .idea-detail { opacity: 1; transform: translateY(0); }
+.idea-card:hover .idea-detail, .idea-card:focus-within .idea-detail, .idea-card.is-open .idea-detail { opacity: 1; transform: translateY(0); }
 .idea-detail h4 { margin: 0 0 26px; font-size: clamp(27px, 2.35vw, 36px); line-height: 1.08; letter-spacing: -.045em; font-weight: 580; }
 .idea-detail ul { display: grid; gap: 13px; margin: 0; padding: 0; list-style: none; color: #d0d5de; font-size: clamp(14px, 1.05vw, 16px); line-height: 1.52; }
 .idea-detail li { position: relative; padding-left: 15px; }
@@ -975,8 +974,16 @@ button { color: inherit; font: inherit; }
   .ad-history article + article { padding-left: 0; border-left: 0; border-top: 1px solid #c4bfb7; }
 
   .ideas-section .section-heading h2 { overflow-wrap: anywhere; white-space: normal; font-size: clamp(28px, 9vw, 38px); line-height: 1.02; }
-  .idea-stage { height: 470px; }
-  .idea-card { flex-basis: 242px; height: 350px; }
+  .idea-stage { height: 450px; }
+  .idea-stage-note { top: 18px; left: auto; right: 18px; padding: 0; }
+  .idea-track { top: 0; gap: 14px; margin-top: 38px; padding-inline: 7px; }
+  .idea-card { flex-basis: min(76vw, 280px); height: clamp(340px, 97vw, 380px); }
+  .idea-cover, .idea-detail { padding: 22px 20px 20px; }
+  .idea-cover h3 { font-size: clamp(28px, 8.4vw, 34px); }
+  .cover-english .idea-cover h3 { font-size: clamp(21px, 6.6vw, 27px); }
+  .idea-detail h4 { margin-bottom: 18px; font-size: clamp(25px, 7vw, 30px); }
+  .idea-detail ul { gap: 9px; font-size: 13px; line-height: 1.42; }
+  .idea-card.is-open { z-index: 5; transform: rotate(0) translateY(0); }
   .friends-section { padding: 86px 20px; }
   .friends-story h2.friends-lead { font-size: 36px; }
   .interest-orbit { width: 118vw; margin-left: -9vw; }
