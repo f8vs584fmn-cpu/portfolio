@@ -279,6 +279,7 @@ document.querySelectorAll(".idea-track").forEach((track) => {
 
   const measureLoop = () => {
     const firstClone = track.children[sourceCards.length];
+    if (!firstClone || !track.children[0]?.offsetWidth) return;
     loopWidth = Math.max(1, firstClone.offsetLeft - track.children[0].offsetLeft);
     offset = ((offset % loopWidth) + loopWidth) % loopWidth;
   };
@@ -300,7 +301,10 @@ document.querySelectorAll(".idea-track").forEach((track) => {
       const speed = innerWidth <= 620 ? 27 : 36;
       offset = (offset + (elapsed / 1000) * speed) % loopWidth;
     }
-    track.style.transform = `translate3d(${-offset.toFixed(2)}px,0,0)`;
+    // Avoid promoting the very wide track to a single GPU texture. Several
+    // desktop browsers otherwise paint only the first few cards and leave the
+    // rest of the stage blank.
+    track.style.transform = `translateX(${-offset.toFixed(2)}px)`;
     syncScrubber((offset / loopWidth) * 100);
     requestAnimationFrame(renderIdeaLoop);
   };
@@ -310,6 +314,10 @@ document.querySelectorAll(".idea-track").forEach((track) => {
   new IntersectionObserver(([entry]) => {
     inView = entry.isIntersecting;
     lastFrame = performance.now();
+    if (inView) {
+      measureLoop();
+      requestAnimationFrame(measureLoop);
+    }
   }, { threshold: 0.02 }).observe(stage);
   document.addEventListener("visibilitychange", () => { lastFrame = performance.now(); });
 
