@@ -9,7 +9,7 @@
       content="Dylan Guan 关鉴的个人作品网站：科学理性、审美创造与好奇心。"
     />
     <title>Dylan Guan 关鉴</title>
-    <link rel="stylesheet" href="./styles.css?v=20260816-ios-carousel-visible" />
+    <link rel="stylesheet" href="./styles.css?v=20260817-science-images" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -142,7 +142,17 @@
                   <article class="education-card">
                     <header><time>2012—2016</time><h3>同济大学</h3><p>地质学 · 本科</p></header>
                     <figure class="credential-card">
-                    <img loading="lazy" decoding="async" src="./media/credential-tongji.webp" alt="同济大学理学学士学位证（隐私信息已处理）" />
+                    <img
+                      data-science-credential
+                      loading="lazy"
+                      decoding="async"
+                      src="./media/credential-tongji.webp"
+                      srcset="./media/credential-tongji-mobile.webp 960w, ./media/credential-tongji.webp 1500w"
+                      sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 900px) min(100vw - 80px, 560px), 390px"
+                      width="1500"
+                      height="2117"
+                      alt="同济大学理学学士学位证（隐私信息已处理）"
+                    />
                     </figure>
                   </article>
                   <article class="education-card">
@@ -189,7 +199,17 @@
                 </dl>
               </div>
               <figure class="ielts-document">
-                <img loading="lazy" decoding="async" src="./media/credential-ielts.webp" alt="雅思成绩单（隐私信息已处理）" />
+                <img
+                  data-science-credential
+                  loading="lazy"
+                  decoding="async"
+                  src="./media/credential-ielts.webp"
+                  srcset="./media/credential-ielts-mobile.webp 960w, ./media/credential-ielts.webp 1600w"
+                  sizes="(max-width: 620px) calc(100vw - 40px), (max-width: 900px) min(100vw - 80px, 560px), 390px"
+                  width="1600"
+                  height="2180"
+                  alt="雅思成绩单（隐私信息已处理）"
+                />
               </figure>
             </div>
           </section>
@@ -385,6 +405,6 @@
     </main>
 
     <footer class="global-footer" aria-hidden="true"><span>DYLAN GUAN · 2026</span><span>HANGZHOU / CHINA</span></footer>
-    <script src="./app.js?v=20260816-ios-carousel-visible"></script>
+    <script src="./app.js?v=20260817-science-images"></script>
   </body>
 </html>

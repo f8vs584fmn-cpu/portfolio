@@ -3,6 +3,20 @@ const home = document.querySelector(".home");
 const prismTrigger = document.querySelector("#prismTrigger");
 const cursor = document.querySelector(".cursor");
 const validRoutes = new Set(["home", "science", "art", "curiosity"]);
+const scienceCredentials = [...document.querySelectorAll("[data-science-credential]")];
+
+function primeScienceCredentials() {
+  scienceCredentials.forEach((image) => {
+    image.loading = "eager";
+    image.fetchPriority = "high";
+    image.decode?.().catch(() => {});
+  });
+}
+
+document.querySelectorAll('[data-route="science"]').forEach((link) => {
+  link.addEventListener("pointerenter", primeScienceCredentials, { once: true });
+  link.addEventListener("touchstart", primeScienceCredentials, { once: true, passive: true });
+});
 
 function activatePrism() {
   home.classList.add("is-awake");
@@ -64,6 +78,7 @@ function getRoute() {
 
 function renderRoute() {
   const route = getRoute();
+  if (route === "science") primeScienceCredentials();
   pages.forEach((page) => page.classList.toggle("is-active", page.dataset.page === route));
   document.body.classList.toggle("is-detail", route !== "home");
   document.querySelectorAll(".mini-nav a").forEach((link) => {
@@ -166,6 +181,7 @@ document.querySelectorAll("img").forEach((image, index) => {
   // overflow-hidden, transformed carousel. Load every carousel page eagerly
   // so swiping never reveals an empty frame.
   if (image.closest("[data-carousel]")) image.loading = "eager";
+  else if (image.matches("[data-science-credential]") && getRoute() === "science") image.loading = "eager";
   else if (index > 1) image.loading = "lazy";
   image.decoding = "async";
 });
